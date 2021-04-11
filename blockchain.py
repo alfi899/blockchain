@@ -108,8 +108,36 @@ class Blockchain(object):
 
         return vars(block)
 
+    def create_node(self, adress):
+        self.nodes.add(adress)
+        return True
+
+    @staticmethod
+    def get_block_object(block_data):
+        return Block(
+            block_data["index"],
+            block_data["proof_number"],
+            block_data["previous_hash"],
+            block_data["data"],
+            timestamp=block_data["timestamp"]
+        )
+
 
 bc = Blockchain()
-print("READY")
+print("GET READY MINING ABOUT TO START")
 print(bc.chain)
+
+last_block = bc.last_block
+last_proof_number = last_block.proof_number
+proof_number = bc.proof_of_work(last_proof_number)
+
+bc.get_data(
+    sender="0",
+    reciever="test.te",
+    amount=1
+)
+
+last_hash = last_block.compute_hash
+block = bc.build_block(proof_number, last_hash)
+print("WOW, MINING HAS BEEN SUCCESFUL")
 print(bc.chain)
